@@ -33,8 +33,9 @@ def parse_arguments():
 
     args = parser.parse_args()
 
-    if args.config_location is not None:
-        config = Config(args.config_location).get_config()
+    # Make config
+    # if args.config_location is not None:
+    config = Config(args.config_location).config
     # else:
     #     config_location = "./config.json"
     #     with open(config_location, mode="r") as fl:
