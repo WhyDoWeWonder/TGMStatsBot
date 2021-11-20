@@ -12,6 +12,24 @@
   "strings": {
     "server_name": "",
     "server_network_name": ""
+  },
+  "emoji": {
+    "wl": "",
+    "wins": "<a:wins:911022000233910312>",
+    "losses": "<:losses:911022066319376395>",
+    "kd": "<a:kd:911022097931853865>",
+    "kills": "<a:kills:911022126255964180>",
+    "deaths": "<a:deaths:911022140294312016>",
+    "played": "<a:played:911022155926503494>",
+    "wool": "<a:wool:911022171961294878>",
+    "level": "<a:level:911022187023073351>",
+    "redblue": "<a:redblue:911675476152549407>",
+    "match": "",
+    "maps": "",
+    "clock": "<a:clock:911676420932141138>",
+    "first_place": ":first_place:",
+    "second_place": ":second_place:",
+    "third_place": ":third_place:"
   }
 }
 

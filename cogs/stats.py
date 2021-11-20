@@ -14,7 +14,8 @@ from structs.global_vars import GlobalVariables
 
 
 async def process_stats_command(self, ctx, requested_user):
-    if ctx.channel.id in self.global_variables.config['bot']['channels']:
+    config = self.global_variables.config
+    if ctx.channel.id in config['bot']['channels']:
         flags = ""
         requested_user_string_length = len(requested_user)
         # If requested_user is in the form of a Warzone/TGM playerID
@@ -59,7 +60,7 @@ async def process_stats_command(self, ctx, requested_user):
                 #######
                 # Since the API returns nothing when a players stat has not been set, such as when a player has not yet
                 # lost a game or died, we need to do a bit of pre-processing on our data to make sure everything works
-                # If the APi returns nothing in other cases, well to bad the program will probably break
+                # If the API returns nothing in other cases, well to bad the program will probably break
                 user_stat_types = ['name', 'uuid', 'lastOnlineDate', 'initialJoinDate', 'wins', 'losses', 'kills',
                                    'deaths', 'level', 'wool_destroys']
                 for stat_type in user_stat_types:
@@ -73,10 +74,10 @@ async def process_stats_command(self, ctx, requested_user):
                 ms2 = res['user']['initialJoinDate']
                 win = res['user']['wins']
                 lost = res['user']['losses']
-                wl = win / lost if lost != 0 else win
+                wl = win / lost if lost != 0 else "N/A"
                 k = res['user']['kills']
                 d = res['user']['deaths']
-                kd = k / d if d != 0 else k
+                kd = k / d if d != 0 else "N/A"
                 level = res['user']['level']
                 wool_destroys = res['user']['wool_destroys']
                 matches = res['user']['matches']
@@ -85,17 +86,18 @@ async def process_stats_command(self, ctx, requested_user):
                 page1.set_author(name=mc_name_possession_string +
                                       " Stats on the Team Games Mode of The PVP Arcade Network 1/2")
                 page1_embed_fields = [
-                    EmbedField(name="<a:wl:855110803082313728> W/L", value="{:.2f}".format(wl)),
-                    EmbedField(name="<a:wins:853628581698600961> Wins", value=win),
-                    EmbedField(name="<:loses:853633469070835712> Losses", value=lost),
-                    EmbedField(name="<a:kd:855110404735893515> K/D", value="{:.2f}".format(kd)),
-                    EmbedField(name="<a:kills:853628582731186177> Kills", value=k),
-                    EmbedField(name="<a:deaths:855109742288437250> Deaths", value=d),
-                    EmbedField(name="<a:level:853628581188337666> Level", value=level),
-                    EmbedField(name="<a:played:853633469014605824> Matches played", value=matches),
-                    EmbedField(name="<a:wool:853628583535968286> Wool Destroys", value=wool_destroys),
+                    EmbedField(name=f"{config['emoji']['wl']} W/L", value="{:.2f}".format(wl)),
+                    EmbedField(name=f"{config['emoji']['wins']} Wins", value=win),
+                    EmbedField(name=f"{config['emoji']['losses']} Losses", value=lost),
+                    EmbedField(name=f"{config['emoji']['kd']} K/D", value="{:.2f}".format(kd)),
+                    EmbedField(name=f"{config['emoji']['kills']} Kills", value=k),
+                    EmbedField(name=f"{config['emoji']['deaths']} Deaths", value=d),
+                    EmbedField(name=f"{config['emoji']['level']} Level", value=level),
+                    EmbedField(name=f"{config['emoji']['played']} Matches Played", value=matches),
+                    EmbedField(name=f"{config['emoji']['wool']} Wool Destroys", value=wool_destroys),
                     EmbedField(name="Last Online", value=human(ms / 1000.0)),
-                    EmbedField(name="Join Date", value=human(ms2 / 1000.0))]
+                    EmbedField(name="Join Date", value=human(ms2 / 1000.0))
+                ]
 
                 for field in page1_embed_fields:
                     try:
@@ -117,11 +119,11 @@ async def process_stats_command(self, ctx, requested_user):
                 page2.set_author(name=mc_name_possession_string +
                                       " Latest Match Stats 2/2")
                 page2_embed_fields = [
-                    EmbedField(name="<a:redblue:853636359108558898> Winning Team",
-                               value=res[0]["match"]["winningTeam"]),
-                    EmbedField(name="<a:match:854808917024309328> Match Size", value=res[0]["matchSize"]),
-                    EmbedField(name="<:maps:853637839064924170> Map", value=res[0]["loadedMap"]["name"]),
-                    EmbedField(name="<a:clock:854800563857784872> Time elapsed", value=res[0]["timeElapsed"]),
+                    EmbedField(name=f"{config['emoji']['redblue']} Winning Team",
+                               value=res[0]["match"]["winningTeam"].capitalize()),
+                    EmbedField(name=f"{config['emoji']['match']} Match Size", value=res[0]["matchSize"]),
+                    EmbedField(name=f"{config['emoji']['maps']} Map", value=res[0]["loadedMap"]["name"]),
+                    EmbedField(name=f"{config['emoji']['clock']} Time Elapsed", value=res[0]["timeElapsed"]),
                     EmbedField(name="Started",
                                value=datetime.datetime.fromtimestamp(ms3 / 1000.0).strftime('%m-%d • %H:%M:%S'))
                 ]
@@ -145,6 +147,8 @@ async def process_stats_command(self, ctx, requested_user):
                 self.global_variables.messages.append(
                     {"message": message, "author": ctx.author, "pages": pages, "page_number": 0})
     else:
+        from util.emoji import get_all_emoji
+        get_all_emoji(client=self.global_variables.client)
         embed_var = discord.Embed(title="You can't use that here!", color=0xFF0000)
         await ctx.send(embed=embed_var, delete_after=5.0)
 

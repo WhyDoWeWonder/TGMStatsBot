@@ -47,12 +47,14 @@ async def process_leaderboard_command(self, ctx):
 
 
 class Leaderboard(commands.Cog):
-    global_variables = GlobalVariables()
-    guild_ids = global_variables.config['bot']['guilds']
+    config = GlobalVariables().config
+    guild_ids = config['bot']['guilds']
 
     def __init__(self, client):
         self.client = client
-        self.leaderboard_prefix = {0: ":first_place:", 1: ":second_place:", 2: ":third_place:"}
+        self.leaderboard_prefix = {0: self.config['emoji']['first_place'],
+                                   1: self.config['emoji']['second_place'],
+                                   2: self.config['emoji']['third_place']}
 
     def create_embed(self, res, page_number: int, leaderboard_type: str):
         #######
