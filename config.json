@@ -3,7 +3,8 @@
     "token": "token",
     "prefix": "*",
     "channels": 765849289817456651,
-    "guilds": 754890606173487154
+    "guilds": 754890606173487154,
+    "icon_url": "https://cdn.discordapp.com/icons/865108378153517096/aa6a471fa500a396a3e0f419b3acad14.png?size=64"
  },
   "connection": {
     "proxy": null,

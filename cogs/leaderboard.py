@@ -73,8 +73,7 @@ class Leaderboard(commands.Cog):
 
         page.timestamp = datetime.datetime.utcnow()
         page.set_footer(text='Bot Created by ksndq and LordofLightning',
-                        icon_url="https://cdn.discordapp.com/icons/865108378153517096"
-                                 "/aa6a471fa500a396a3e0f419b3acad14.png?size=64")
+                        icon_url=self.config['bot']['icon_url'])
         ################################################################
         return page
 
