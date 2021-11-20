@@ -33,13 +33,7 @@ def parse_arguments():
 
     args = parser.parse_args()
 
-    # Make config
-    # if args.config_location is not None:
     config = Config(args.config_location).config
-    # else:
-    #     config_location = "./config.json"
-    #     with open(config_location, mode="r") as fl:
-    #         config = json.loads(fl.read())
 
     # args_to_check = ["token", "channel", "guild"]
     if args.token is not None:
